@@ -1,0 +1,23 @@
+@startuml Manage Company (UPDATE)
+
+header Online-Job-Fair-Registeration Sequence Diagram
+footer Page %page% of %lastpage%
+title "Manage Company (UPDATE)"
+
+participant "Client" as client
+participant "<<javaScript>>\n:server" as server
+participant "<<router>>\n:companies" as routerCompanies
+participant "<<controllers>>\n:companies" as controllersCompanies
+participant "<<model>>\n:Company" as modelCompanies
+database "<<MongoDB>>\n:companies" as CompaniesDatabase
+
+client->server ++:req.put('/companies/:id')
+server->routerCompanies ++:app.use('/companies',companies)
+routerCompanies -> controllersCompanies ++:updateCompany()
+controllersCompanies->modelCompany ++:findByIdAndUpdate(req.params.id)
+modelCompany ->CompaniesDatabase ++: CompanySchema
+CompaniesDatabase --> modelCompany --: company
+controllersCompanies <-- modelCompany --:company
+controllersCompanies->client --:response
+
+@enduml

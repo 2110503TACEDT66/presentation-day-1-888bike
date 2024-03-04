@@ -1,0 +1,64 @@
+@startuml
+left to right direction
+package "Online-job-fair"{
+    class "<<Application>>\nOnline job fair" as VacQService{}
+
+    class "<<Resource>>\nauth" as Resourceauth{
+        +register():void
+        +login():void
+        +getMe():void
+        +logout():void
+    }
+
+    class "<<Resource>>\nCompanies" as ResourceCompanies{
+        <<GET>> +getCompanies():Company
+        <<POST>> +createCompany():Company
+    }
+
+    class "<<Resource>>\nAppointments" as ResourceAppointments{
+        <<GET>> +getAppointments():Appointment
+        <<POST>> +addAppointment():Appointment
+    }
+
+    class "<<Resource>>\nCompany" as ResourceCompany {
+        <<GET>> +getCompany(): Company
+        <<PUT>> +updateCompany(): Company
+        <<DELETE>> +deleteCompany(): void
+    }
+
+    class "<<Resource>>\nAppointment" as ResourceAppointment {
+        <<GET>> +getAppointment(): Appointment
+        <<PUT>> +updateAppointment(): Appointment
+        <<DELETE>> +deleteAppointment(): void
+    }
+
+    class "<<Representation>>\nCompany" as RepresentationCompany {
+        -name
+        -address
+        -website
+        -description
+        -tel
+    }
+
+    class "<<Representation>>\nAppointment" as RepresentationAppointment {
+        -apptDate
+        -user
+        -company
+        -createdAt
+    }
+
+}
+
+VacQService ..> Resourceauth:"/register\n<<Path>>"
+VacQService ..> Resourceauth:"/login\n<<Path>>"
+VacQService ..> Resourceauth:"/me\n<<Path>>"
+VacQService ..> Resourceauth:"/logout\n<<Path>>"
+VacQService ..> ResourceCompanies:"/companies\n<<Path>>"
+VacQService ..> ResourceAppointments:"/appointments\n<<Path>>"
+ResourceCompanies ..> ResourceCompany: "/{companyId}\n<<Path>>"
+ResourceAppointments ..> ResourceAppointment: "/{appointmentId}\n<<Path>>"
+ResourceCompany ..> RepresentationCompany: "<<use>>"
+ResourceCompany ..> ResourceAppointments: "/appointments\n<<Path>>"
+ResourceAppointment ..> RepresentationAppointment: "<<use>>"
+
+@enduml

@@ -1,0 +1,25 @@
+@startuml Online-job-fair System Use Case Diagram
+left to right direction
+actor "Registered User" as user
+rectangle "Online-job-fair System" as Online-job-fairSystem {    
+    usecase "Register" as register
+    usecase "View\nCompanies" as viewCompanies
+    usecase "Manage\nall Appointments" as manageAppointments
+    usecase "Manage\nyour Appointment" as manageAppointment
+    usecase "Manage\nCompanies" as manageCompany
+}
+
+user -- register
+user -- viewCompanies
+user -- manageAppointment
+
+actor "Admin" as admin
+register -- admin
+manageCompany -- admin
+manageAppointments -- admin
+
+actor "Unregistered User" as UU
+UU -- viewCompanies
+
+
+@enduml
