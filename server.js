@@ -33,7 +33,9 @@ app.use(limiter);
 //prevent http param pollution
 app.use(hpp());
 //enable cors
-app.use(cors());
+app.use(cors({
+    origin: 'http://localhost'
+}));
 //cookie parser
 app.use(cookieParser());
 //routing
